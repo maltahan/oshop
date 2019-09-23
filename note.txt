@@ -199,7 +199,7 @@ a functions that specifies how the state changes in response to an action. they 
 Pure function:
 
 we always give the same input the we get the same output no matter how many times we call that function.
-===================================================================0
+===================================================================
 unit test
 
 The reality is even the automated testing has a lot of benefits.
@@ -557,6 +557,18 @@ single responsability
 if our component has alot of parameters in the constructor or it has many import statments, this is a sign that it doing many things. 
 
 @Input to import a parameter from other components.
+
+==================================================
+There are some developers how likes to write if/else else if statements, switch ..
+this is not how a professional works, in order to get rid of the if/else statements we need to make them do the same.
+maybe there will be some overhead repainting some statements, but not big since angular is fast and some operations are done async
+====================================================
+if we dont want a value from a function we dont have to await it and we get a promise.
+=====================================================
+...item typescript will iterate over all the properties of the item.
+===================================================
+when we are dealing with realtime databases, when we apply a change on one node all the related nodes are get udpdated as well.
+====================================================
 
 
 
