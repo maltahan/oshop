@@ -607,4 +607,8 @@ to fix in the import statment ./../../  we have to modify ts config file to add 
     }
 =================================================
 
+Issues
 
+Error: Can't resolve './$$_gendir/app/app.module.ngfactory' in 'C:\projects\angular\oshop\src'
+
+run ng build --env instead of ng build --prod

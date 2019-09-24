@@ -8,9 +8,9 @@ import { ProductsComponent } from 'app/shopping/components/products/products.com
 import { ShoppingModule } from 'app/shopping/shopping.module';
 import { SharedModule } from 'shared/shared.module';
 
-import { environment } from '../../../environments/environment';
-import { AppComponent } from '../../app.component';
-import { LoginComponent } from '../../core/components/login/login.component';
+import { environment } from '../environments/environment';
+import { AppComponent } from './app.component';
+import { LoginComponent } from './core/components/login/login.component';
 
 
 @NgModule({
