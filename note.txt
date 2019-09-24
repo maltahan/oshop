@@ -594,8 +594,8 @@ Interesting Plugins:
 1- Move Ts/ 
 to move the files savely and update relative imports in the workspace.
 2- typescript Hero
-
 Moving the import statments, orgnizing them and storing them alphabetically
+Ctrl-alt and O to sort the import alphabetically
 ============================================= 
 to fix in the import statment ./../../  we have to modify ts config file to add a shortcut to this expression.
 
