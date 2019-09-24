@@ -1,0 +1,610 @@
+https://material.angular.io
+There are two ways to create animation in angular:
+1- css
+in css we have animation and transitions. with these features we can animate dom elements. animate.css is a library gives a pre-defined classes to create animation.
+we have to install it using the npm and add it to the html file. in the angular world we need to import it as we import the bootstrap and then apply one of these classes on the
+elements. however the are limited use and used for simple applications. for complex sernarios we need to use js.
+2- js
+there are various libraries where we can apply animation like:
+1- JQuery 
+2- GSAP
+3- Zepto
+4- Web Animation API the recommended approach. and supports by chrome, opera and firefox. 
+
+can i used website can tell you what are the features that each browser supports. some browsers like edge and ie are behind the game, so they dont support animatiations.
+we can install polyfills to make animation in these browsers. in angular we have to install web-animations-js to support all the browsers. angular has a module called angular/animations and this module is built on the top of the web animation api. we will
+use these modules, because they are easy to unit test and they are cross-platform, where we can apply them on ios, android and other platforms.
+
+there are three states for each dom element when we apply animation on it:
+1- void
+it is not a part of the dom, this happens when the element is created, but not placed in the dom yet or removed from the dom. an example for that is the to-do list
+an element is created, but not yet placed in the dom. it transfered from one state to the other so it goes from void to *, remove element is from * to void.
+2- default(*)
+3- custom
+we dont use custom states only in custom senarios for example a zippy list, where the list is exists but the state is chaning each time.
+
+If you have a call to the animate function with only a timing value without any styles this function is going to undo all the previous styles applied over this period of time.
+like 
+style({backgroundColor: 'yellow', opacity: 0}), opacity means invisible 
+animate(2000) it will eliminate all the changes that the style function has applied.
+'void => *, * => void' can be simplify to void <=> *.
+
+animations: [
+    trigger('fade', [
+      state('void', style({opacity: 0})),
+      transition('void <=> *', [
+        animate(2000)
+      ]),
+    ])
+  ]
+  
+it can be refactored to the following so when we add an element we press enter, when delete an element on leave
+  
+  animations: [
+    trigger('fade', [
+      state('void', style({opacity: 0})),
+      transition(':enter, :leave', [
+        animate(2000)
+      ]),
+    ])
+  ]
+  
+to create a reusable trigger we create a file for these animatiations.
+when we see a animationTriggerMetadata we drop the names metadata and the animation, so we have a trigger object.
+
+Animation in Angular 
+trigger
+transition
+state
+animate and etc...
+
+
+Easing
+easing detemins the speed of the animation over time. we have multible types we can create our own using the cube bezier, we can make it online.
+
+
+keyframe 
+We've keyframes we can specify multiple frames for an animation.And in each frame we can apply a different style.
+transform: 'translateX(-100%)' move the element outside the screen.
+So here's the lesson to implement more complex animations with keyframes and define various styles for each keyframe each keyframe have an opposite property that determines 
+the related position of the keyframe from the beginning of the animation.
+
+creating reusable animation
+If you have a complex animation with multiple steps and you want to reuse this in multiple places in your application you can call the animation function to 
+create a reusable animation and then you can reuse that animation by calling the use animation function that we are not finished yet we still need to work on reusing 
+the fading animation.
+
+
+Parameterizing Reusable Animations
+When creating reusable animations using the animation function you can add parameters to your animations as a second argument and animation function.
+You can apply the default values for these parameters and the consumer of this animation can override these values.
+
+
+child animation
+when we apply animation on the parent the animation for the child will not be called so we have to tell the parent to execute child animaiton as well like this:
+query('@todoAnimation', [
+          animateChild() // we use this helper function 
+        ])
+after that the animation will be executed sequentially we have to use group to run them in parallel.
+     group([
+          query('h1', [
+            style({transform: 'translateY(-20px)'}),
+            animate(1000)
+          ]),
+          query('@todoAnimation', [
+            animateChild()
+          ])
+        ])
+
+
+staggering
+we add stagering to our animation to make each childern moves like a curtain.
+
+
+custom state
+if you want to animate an element that is always on the view. Chances are you might need to define custom States. If that's the case you use the property 
+binding syntax to set the value of this animation trigger its value or this state will determine what transition will run.
+
+separation of concerns 
+we have moved the code from the component, because it sholud only do one job. we created a new file an moved all the animation code into it and the export the variable.
+===============================================
+
+Angular material
+is a library of hight-quality components built with angular and typescript.
+These components are internationalized so users with different languages can use them.
+They have a clean and simple API. They are well-tested with UNIT and integration tests.
+They're customizable are very fast and have minimal performance overhead and they are almost well documented.
+
+
+angular material vs bootstrap
+Well bootstrap an angular material as you know there are two different libraries built by different teams.
+Bootstrap was built a few years ago using plain old geometry and it has nothing to do with angular.
+So all that javascript code that we have in Bootstrap libraries we cannot easily use them in our angular applications.
+We need to create custom directives or custom components and do some magic in order to use those components.
+Angular material on the other hand is built specifically for angular applications so we don't have to
+do anything magical. We can't simply import a module and use angular material components just like how we use our custom components.
+Also in terms of the aesthetics bootstrap has a different design language all the bootstrap components
+have a different look and feel but the angular material is based on the material design which is a visual language developed by Google in 2014.
+This is the same language that you see in Google Plus in Android and many other applications. So to answer your question you can use bootstrap.
+You can use angular material or you can use both angular material is still new.
+angular material still immature, it doesnt have all the compoents that bootstrap has.
+
+entry components
+we need to add the elements that we add dynamically like dialogs to this directive under
+the NgModule we create this directive.
+
+==================================================
+angular material 2
+
+we can pass data to our dialogs using the second argument of the open method of the dialog service. Now on a target component in this case edit-course compoents in order to receive that data we need
+to add a parameter in our constructor and decorate this parameter we the inject decorator and use MDI underline dialog underline data as the custom injection token.
+
+create our own theme we go to material.io/color
+
+========================================
+SASS
+
+mixin
+
+is a collection of multible attributes, we pass it as a function to be able to pass an arguments.
+
+typoghraphy
+
+we used it to edit the font size, heading and other properties. we can see all of them on the angular material website.
+===========================================
+Redux
+
+Is a library that helps you manage the state of your application and is something that you should use
+in medium to large single page applications with complex data flows.
+Facebook had this problem back in 2014 and that's why they introduced the flux architecture.
+Now Redux is a simplified and lightweight implementation of this architecture that provides a clean
+and elegant solution to this problem maintaining the application state in a predictable way.
+
+benefits:
+
+1- The first one is that it decouples your application from a presentation framework like angular.
+So you can implement a big chunk of your application and its presentation logic using simple functions
+that are completely decoupled from Angulra or any other presentation frameworks.
+And then you can decide if you want to use Angular or maybe you want to use re-act.
+So it allows you to postpone decisions about external libraries and frameworks which is one of the attributes of clean architecture.
+
+2- As you might have heard from Uncle Bob The second benefit is that it makes it easier to unit test your
+application without Mock's spies and any other tricks that can make testing both complex and error prone
+because redux is heavily based on functional programming.
+
+3- The third benefit is that you can get some really cool tools as part of your development.
+One such example is redux developer tools extension that he can add to Chrome Firefox and other browsers.
+It makes it incredibly easy to debug her application by allowing you to inspect the application stay
+in such a way that we have never seen before.
+
+when to use redux:
+Here are some scenarios you have independent 
+1- copies of the same data in multiple places
+2- multiple views that need to work with the same data and be in sync.
+3- Users can collaborate and work on the same piece of data so data can be changed by user A and at the
+same time user B can change the same data
+4- data can be updated by multiple actors so it can be changed
+
+Buliding blocks of redux:
+
+1- Store:
+The store is a single javascript object that contains the state of the application.
+
+2- Actions:
+actions are plain javascript objects that represent something that has application (events)
+
+3- Reducers:
+a functions that specifies how the state changes in response to an action. they are pure functions.
+
+Pure function:
+
+we always give the same input the we get the same output no matter how many times we call that function.
+===================================================================
+unit test
+
+The reality is even the automated testing has a lot of benefits.
+It doesn't fit every project and every team for the starter Your team needs to have a discipline in
+writing clean tests and maintaining them.
+
+If you don't work in a team like the writing automated tests ends up costing you more than the value
+
+you get out of them because you will spend a lot of time fixing broken tests that are hard to read and
+
+hard to understand.
+
+In those cases it's better not to write tests at all.
+
+Another factor is the time and budget of your project.
+
+Let's say you're part of a startup company and you have three months to turn a concept into real work
+
+in software.
+
+In this situation I argue that you should not spend your time writing tests initially because you don't
+
+know if this application or this business is going to succeed.
+
+Most startup companies have a small budget and they want to produce something quickly so they can show
+
+it to a mass audience and then attract venture capitalists to raise funds.
+
+If you want to spend three months writing tests chances are your application may not even make it to
+
+the production.
+
+So what's the point of writing all these tests.
+
+Plus in a lot of startup companies the requirements change frequently.
+
+If you spend a lot of time writing tasks a lot of these tasks break as you modify the application code to implement the new requirements.
+
+
+Unit test in action
+
+The initialization of our vote components that this initialization is only one line of code.
+And it's not a big deal but sometimes when working with more complex objects the initialization may involve a few lines of code.
+We can refactor these tests and move this initialization to a single place. So we are not duplicating it in each test.
+So I'm going to cut this line here and move it inside the body of our sweet delete.
+03:26.780 --> 03:29.260
+Each test is only two lines of code.
+
+However there is a problem with this test.
+
+If you run this test the second one is going to fail because in the first one we're up voting.
+
+So the value of total votes is going to be one.
+
+And this means in the second test the value of total votes is going to be zero not negative one.
+
+So the problem we have here is that our tests have side effect the execution of one test can impact
+
+the execution of other tests.
+
+And with this our test will break quite often which is really painful.
+
+We don't want fragile tests remember.
+
+The solution is to use the before each function.
+
+So in Jasmine We have another function called before each as the argument we pass a function here
+
+and our test runner is going to call this function before each test.
+
+And this is a perfect opportunity for us to initialize our objects.
+
+So the type of component come component so will have Intellisense throughout this module and then do
+
+the actual initialization here.
+
+Now in jasmin we have three other functions that are similar to before each.
+
+We also have after each and it has the same signature.
+
+So it takes a function that will be called after each test.
+
+And this is a place where you do cleanup.
+
+Now in this case we don't need to do any clean up but in your tests if you need to do clean up after
+
+your test this is where you and your clean up code.
+
+We have two other similar functions before all which is executed once for all tests and after all which
+
+is executed once after all tests.
+
+So in automated testing terms we refer to what we write in the before each function as the set up and
+
+what we write in the after each function as the turndown.
+
+These are the terms that you hear in a lot of unit testing frameworks irrespective of the language.
+
+
+spyOn method
+
+We use a function in jasmin called Spy on with this function.
+
+We can put a spy on a method in a class.
+
+And we that spy we can check if that method has been called we can change the implementation of that
+
+method.
+
+We can return a different value or we can throw an error.
+
+So basically with this way we get control over a method in a class.
+
+Now Dot and call fake with this we can change the implementation of get to those methods.
+
+Limitaion
+
+
+However there are a couple of limitations with unit tests.
+
+If your component is using a router it's not easy to unit test that you need to run that component in
+
+the angular environment.
+
+tests even though you may argue that there are unit tests but irrespective of the terminology you cannot
+
+test those components with routers using the techniques you have learned in this section.
+
+Other limitation is around template bindings.
+
+So if it's a property in a component with these unit test we cannot ensure if that component renders
+
+that property or not.
+
+Similarly if we click on a button in the view we cannot ensure if the corresponding method in the component
+
+is called or not.
+
+So for these scenarios you're going to load a component in an angular environment so Angerer is going
+
+to compile the component with its template is going to inject the dependencies and then we can get that
+
+router and put a spy on it to change its implementation.
+
+disable a test
+
+to disable a test we can just put x before it statement
+
+====================================================
+code coverage
+
+As you write test for our application we need to know how much of our code is covered with tests.
+
+So back in terminal when running in the test we're going to pass a parameter dash dash code dash coverage
+
+with this we get a new folder here coverage which gives us a report of how much of our code is under
+
+test.
+
+So let's open up this index.html in our browser and this is what we get.
+
+So I ended up you can see a summary of code coverage.
+
+So here we have 93 percent of the statements under test hundred percent of branches which means if an
+
+else blocks or execution paths 77 percent of the functions and 96 percent of lines of code and next
+
+to that we can see a more detailed number 79 lines out of eighty two lines of code are currently under
+
+test.
+Now below the summary can see a breakdown of code coverage based on the folders and files.
+
+
+====================================
+Integration test
+
+As I mentioned before these unit tests are great for testing the logic of our components but they have
+
+limitations we cannot test the integration of a component with a template.
+
+So that's what integration tests are for.
+
+So in this section you're going to learn how to use integration tests or testing the templates navigation
+
+and directives.
+
+And finally at the end of the section you will learn how to deal with asynchronous operations.
+
+Your components.
+
+
+compileComponent is added to compine the component with their associated tempates.
+and because the files includes styles and other files it is called async.
+
+
+
+Fixture
+
+is a wrapper around the components instance as well as is dom elements.
+
+when calling the fixture.detectChanges() the component onInit method will be called.
+
+Stub 
+
+is used to create a fake router for test reasons.
+
+Subject 
+
+is an Observable which have all the cababilities that the Observable has with the ability to
+add parameter to observable.
+
+
+
+import space enter to make the imorting easier to type.
+
+when stable 
+
+is a function used to delay the execution of an async method i.e. wait unti the function return the data.
+
+if we want to test async function we have to use also async with (whenStable) or fakeAsync with(tick) in or test.
+
+==============================================
+Project notes
+
+First we have created new firebase project and imported the configuration into our project and place them in the environment project.
+
+We wanted to install the bootstrap module in our project, we have to add it into our style file in our project.
+
+The second step is to create the routes, we need first to create the related components. To register the routes we have to go to app modules and add them to the array
+of RouterModule.forRoot([
+      { path: '', component: HomeComponent},
+      { path: 'products', component: ProductComponent},
+	  .....
+    ])
+now we need to add the router-outlet to our html-pages.
+
+in order to deploy our app to firebase, we have to install firebase tools via NPM and then login into out account using "firebase login" command. after that we run the 
+init command from firebase "firebase init". then we have to configure the firebase.json file like:
+
+{
+  "hosting": {
+    "public": "dist", // the name of the file that contains all our compiled files
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
+
+then we build our app using firebase build --prod then firebase deploy. When we deploy our app we should by careful about the folderName, we should give the option 
+
+What do you want to use as your public directory? we should answer dist/'name of our project' because angular creates the dist folder by it self. otherwise the page with 
+"you're seeing this because you've successfully setup firebase hosting" will appear.
+
+when we are working with firebase we should always always unsubscribe (using onDestroy or async pipes which cleaner this pipe will automatically unsubscribe from the observable), with http class we dont have to unsubscribe, because the angular do that automatically.
+because on firebase we are working with asyncronous stream of data. because when we subscibe to observable this subscibion will stay in memory and if we dont managed it properly we get memory 
+leaks like this "user$ | async as user" user$ is an observable and user is a tempate variable.
+
+if/else in template
+
+<li ngbDropdown *ngIf="user$ | async as user; else anonymousUser" class="nav-item dropdown"> this tells angular if we dont have a user then render the anonymous template. 
+
+a component should tell the sevice please login in this user or log him out, it doesnt care about the logic of the authentication. because today we are using firebase, tomorrow we 
+use auth2. 
+
+There are two probelms when we iniliaze an object inside a compoent without inject it, the first one is the testability we dont want each time to inilize the object inside this 
+component or we want to mock this object (instead of calling the real firebase object we create fake one), the second one is the separation of concerens we just direct the user
+from the component to the service, we dont implement anything inside the component.
+
+when we create a service we should add it to the app module as a provider, as well as all the object that we want to inject them.
+
+
+if we have this error "Class constructor BehaviorSubject cannot be invoked without 'new'" we should modify the tsconfig/target from es2015 to es5.
+if we have a permission error to write the the database we have to change the setting in the firebase configuration under rules.
+
+there are three ways to define roles in the application using the firebase, they are explained:
+
+1- in each node we set a property like is admin for each user.
+2- define rule like admin/storemanger and associte the id with the rule/true like id---true.
+3- define operations to be more specific like how is allowed to add a product or remove a product.
+
+these three way are explained in details in the section of Project Authentication and Authorization/defining admins.
+
+Switchmap operator switches to the internal observable, while map takes the upper observable.
+
+
+Route Protection / admin route protectio
+
+In order to protect the routes, we have to implement a service like auth-guard service that implements the canActive Interface, then
+implements the canActive method, the canActive method check whether the user is logged in or not, lastly we add the canActive directive to
+our routes that we want to protect in the app.module. similary we create an admin-guard-service and we add it to the canActive array in the
+app.module.
+
+
+===================================
+Async
+
+when you use the async pipe casing pipe marks this template for change detection.
+
+Every time there is a new value in this observable and because you're dealing with nested observables (switche and map in the auth service)
+
+it's async pipe here causes an infinite loop.
+
+#title="ngModel" now we can use this input field to check whether this input field is touched or invalid, etc. furthermore we can bind 
+this value to other field in the same file to get live changes.
+
+ng2-validation is used to apply field filters that are not exits in angular. it is a very good library.
+
+like the range and custom urls.
+
+
+take operator from rxjs
+
+with this take. Operator we can take only one item, one value from our our observable and then that observable will automatically
+
+complete. So we don't have to explicitly unsubscribe because an observer is not going to emit any new values.
+
+So whenever you want to quickly take something from an observable but don't want to unsubscribe use the take operator.
+
+[(ngModel)]="product.title" banana in the box style use to make two-way binding to fire the fields with values.
+
+no waiting required
+
+I'm immediately navigating the user to the list of products I'm not waiting for firebase to respond before doing this navigation
+
+because this will give a better experience to the user.
+
+In the worst case scenario where there is a bit of delay in creating or updating this product in firebase
+
+the user is on the products page because we're dealing with a real time database.
+
+The screen will refresh automatically.
+
+types button and submit 
+
+we have set the type of the buttons by default to submit, so whenever a button is clicked the form will be submmited.
+so we have to change the type to button.
+
+
+Activate Route
+
+when the route params are chaningin each time, we cant use the snapshot, because the elements in the dom will not changing by angular.
+it will keep the old value. so we have subscribe to the observable.
+
+
+single responsability
+
+if our component has alot of parameters in the constructor or it has many import statments, this is a sign that it doing many things. 
+
+@Input to import a parameter from other components.
+
+==================================================
+There are some developers how likes to write if/else else if statements, switch ..
+this is not how a professional works, in order to get rid of the if/else statements we need to make them do the same.
+maybe there will be some overhead repainting some statements, but not big since angular is fast and some operations are done async
+====================================================
+if we dont want a value from a function we dont have to await it and we get a promise.
+=====================================================
+...item typescript will iterate over all the properties of the item.
+===================================================
+when we are dealing with realtime databases, when we apply a change on one node all the related nodes are get udpdated as well.
+====================================================
+key vs $key
+
+we get key when we add a record to the database, $key when we get a record from the database.
+=================================================
+there are five way to unsubscribe to a subcribtion
+
+1- if a subcribtion is used in component that is only used once the application like the app.compoents i.e one instance used in all the appliaction. Singelton.
+2- we can use async pipe in the html tempalte.
+3- we can implement the onDestroy interface and unsubscribe to a subscribtion
+4- we can use the take operator if the result returns only one value, then it will unsubscribe when the results are rendered.
+5- we can use the Observable with the $ operator and wrappe it in the upper level in the html markup. like this:
+
+<div class="row" *ngIf="cart$ | async as cart">
+  <div class="col-6">
+    <shipping-form [cart]="cart"></shipping-form>
+  </div>
+  <div class="col-6">
+    <shopping-cart-summary [cart]="cart"></shopping-cart-summary>
+  </div>
+</div>
+====================================================
+Interesting Plugins:
+1- Move Ts/ 
+to move the files savely and update relative imports in the workspace.
+2- typescript Hero
+
+Moving the import statments, orgnizing them and storing them alphabetically
+============================================= 
+to fix in the import statment ./../../  we have to modify ts config file to add a shortcut to this expression.
+
+ "baseUrl": "./src",
+    "paths": {
+      "shared/*": [
+        "app/shared/*" witht this we tell the compiler whenever you see shared statment replace it with the "app/shared/"
+      ]
+    }
+=================================================
+
+
