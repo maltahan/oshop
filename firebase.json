@@ -1,10 +1,20 @@
 {
   "hosting": {
-    "public": "dist/oshop",
-	"ignore": [
-    "firebase.json",
-    "**/.*",
-    "**/node_modules/**"
-  ]
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/dist/**",
+        "destination": "/dist.html"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   }
 }

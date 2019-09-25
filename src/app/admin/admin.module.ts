@@ -12,33 +12,33 @@ import { AdminAuthGuard } from './services/admin-auth-guard.service';
   imports: [
     SharedModule,
     RouterModule.forChild([
-      { 
-        path: 'admin/products/new', 
-        component: ProductFormComponent, 
-        canActivate: [AuthGuard, AdminAuthGuard] 
+      {
+        path: 'admin/products/new',
+        component: ProductFormComponent,
+        canActivate: [AuthGuard, AdminAuthGuard]
       },
-      { 
-        path: 'admin/products/:id', 
-        component: ProductFormComponent, 
-        canActivate: [AuthGuard, AdminAuthGuard] 
+      {
+        path: 'admin/products/:id',
+        component: ProductFormComponent,
+        canActivate: [AuthGuard, AdminAuthGuard]
       },
-      { 
-        path: 'admin/products', 
-        component: AdminProductsComponent, 
-        canActivate: [AuthGuard, AdminAuthGuard] 
+      {
+        path: 'admin/products',
+        component: AdminProductsComponent,
+        canActivate: [AuthGuard, AdminAuthGuard]
       },
-      { 
-        path: 'admin/orders', 
-        component: AdminOrdersComponent, 
-        canActivate: [AuthGuard, AdminAuthGuard] 
+      {
+        path: 'admin/orders',
+        component: AdminOrdersComponent,
+        canActivate: [AuthGuard, AdminAuthGuard]
       }
-    ])  
+    ])
   ],
   declarations: [
     ProductFormComponent,
     AdminProductsComponent,
     AdminOrdersComponent
   ],
-  providers:[AdminAuthGuard]
+  providers: [AdminAuthGuard]
 })
 export class AdminModule { }

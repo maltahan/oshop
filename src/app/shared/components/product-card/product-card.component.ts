@@ -11,7 +11,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ProductCardComponent {
   @Input('product') product: Product;
   @Input('show-actions') showActions = true;
-  @Input('shopping-cart') shoppingCart: ShoppingCart; 
+  @Input('shopping-cart') shoppingCart: ShoppingCart;
 
   constructor(private cartService: ShoppingCartService) { }
 

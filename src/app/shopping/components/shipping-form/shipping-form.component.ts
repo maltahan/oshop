@@ -4,7 +4,7 @@ import { AuthService } from 'shared/services/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { Order } from "shared/models/order";
+import { Order } from 'shared/models/order';
 
 @Component({
   selector: 'shipping-form',
@@ -13,10 +13,10 @@ import { Order } from "shared/models/order";
 })
 export class ShippingFormComponent implements OnInit, OnDestroy {
   @Input('cart') cart: ShoppingCart;
-  shipping = {}; 
+  shipping = {};
   userSubscription: Subscription;
   userId: string;
-  
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -24,16 +24,25 @@ export class ShippingFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userSubscription = this.authService.user$.subscribe(user => this.userId = user.uid);
+    console.log(this.authService.user$);
+    if (this.authService.user$) {
+      this.userSubscription = this.authService.user$.subscribe(user => {
+        if (user) {
+          this.userId = user.uid;
+        } else {
+          this.router.navigate(['/login']);
+        }
+      });
+    }
   }
 
-  ngOnDestroy() { 
+  ngOnDestroy() {
     this.userSubscription.unsubscribe();
   }
 
   async placeOrder() {
-    let order = new Order(this.userId, this.shipping, this.cart);
-    let result = await this.orderService.placeOrder(order);
+    const order = new Order(this.userId, this.shipping, this.cart);
+    const result = await this.orderService.placeOrder(order);
     this.router.navigate(['/order-success', result.key]);
-  }    
+  }
 }

@@ -23,12 +23,12 @@ import { LoginComponent } from './core/components/login/login.component';
     ShoppingModule,
     CoreModule,
     SharedModule,
-    AngularFireModule.initializeApp(environment.firebase), //initilized only once in the app
+    AngularFireModule.initializeApp(environment.firebase), // Initilized only once in the app
 
     RouterModule.forRoot([
       { path: '', component: ProductsComponent },
       { path: 'login', component: LoginComponent },
-    ])    
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]
